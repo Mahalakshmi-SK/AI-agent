@@ -79,45 +79,50 @@ def save_chat_history(course_name, module_id):
 
 # Fetch course names for selection
 courses = fetch_course_names()
-course_name = st.selectbox("📚 Select Course", options=courses)
 
-# Fetch module names for selection
-modules = fetch_module_names(course_name)
-module_options = {module[0]: module[1] for module in modules}
+# Input box for course name
+course_name = st.text_input("📚 Enter Course Name").strip().title()
 
-# Automatically select the first module
-if "selected_module_id" not in st.session_state:
-    st.session_state.selected_module_id = list(module_options.keys())[0]
+if course_name in courses:
+    # Fetch module names for selection
+    modules = fetch_module_names(course_name)
+    module_options = {module[0]: module[1] for module in modules}
 
-# Module selection and completion
-module_id = st.session_state.selected_module_id
-module_name = module_options[module_id]
+    # Automatically select the first module
+    if "selected_module_id" not in st.session_state:
+        st.session_state.selected_module_id = list(module_options.keys())[0]
 
-# Display module name and finish button
-col1, col2 = st.columns([3, 1])
-with col1:
-    st.subheader(f"Module: {module_name}")
-with col2:
-    if st.button("Finish Module"):
-        save_chat_history(course_name, module_id)
-        next_module_index = list(module_options.keys()).index(module_id) + 1
-        if next_module_index < len(module_options):
-            st.session_state.selected_module_id = list(module_options.keys())[next_module_index]
-            st.session_state.conversation_memory = []
-        else:
-            st.success("You have completed all modules in this course!")
+    # Module selection and completion
+    module_id = st.session_state.selected_module_id
+    module_name = module_options[module_id]
 
-# Chat input box
-user_input = st.text_input("Type your question and press Enter:", key="user_input")
+    # Display module name and finish button
+    col1, col2 = st.columns([3, 1])
+    with col1:
+        st.subheader(f"Module: {module_name}")
+    with col2:
+        if st.button("Finish Module"):
+            save_chat_history(course_name, module_id)
+            next_module_index = list(module_options.keys()).index(module_id) + 1
+            if next_module_index < len(module_options):
+                st.session_state.selected_module_id = list(module_options.keys())[next_module_index]
+                st.session_state.conversation_memory = []
+            else:
+                st.success("You have completed all modules in this course!")
 
-if user_input:
-    response = get_response(user_input, module_name)
-    st.markdown(f"**🤖 AI Tutor:** {response}")
+    # Chat input box
+    user_input = st.text_input("Type your question and press Enter:", key="user_input")
 
-# Display chat history
-st.subheader("📜 Chat History")
-for i, message in enumerate(st.session_state.conversation_memory):
-    if message["role"] == "user":
-        st.text_area("👤 You:", value=message["content"], height=70, disabled=True, key=f"user_{i}")
-    elif message["role"] == "assistant":
-        st.text_area("🤖 AI Tutor:", value=message["content"], height=150, disabled=True, key=f"assistant_{i}")  # Increased height for detailed responses
+    if user_input:
+        response = get_response(user_input, module_name)
+        st.markdown(f"**🤖 AI Tutor:** {response}")
+
+    # Display chat history
+    st.subheader("📜 Chat History")
+    for i, message in enumerate(st.session_state.conversation_memory):
+        if message["role"] == "user":
+            st.text_area("👤 You:", value=message["content"], height=70, disabled=True, key=f"user_{i}")
+        elif message["role"] == "assistant":
+            st.text_area("🤖 AI Tutor:", value=message["content"], height=150, disabled=True, key=f"assistant_{i}")  # Increased height for detailed responses
+else:
+    st.error("Sorry, the course you entered is not available. Please try again.")
