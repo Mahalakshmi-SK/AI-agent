@@ -50,18 +50,6 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# Session state initialization
-if "messages" not in st.session_state:
-    st.session_state.messages = [
-        {"role": "assistant", "content": "📚 Enter Course Name"}
-    ]
-
-if "course_selected" not in st.session_state:
-    st.session_state.course_selected = False
-
-if "current_module_index" not in st.session_state:
-    st.session_state.current_module_index = 0
-
 # Helper functions
 def get_courses():
     return list(course_data["Course"].keys())
@@ -82,6 +70,19 @@ def save_chat_history():
         filename = f"{st.session_state.selected_course}_{st.session_state.current_module_id}.json"
         with open(os.path.join(chat_dir, filename), "w") as f:
             json.dump(st.session_state.messages, f)
+
+# Session state initialization
+if "messages" not in st.session_state:
+    available_courses = "\n".join([f", {course}" for course in get_courses()])
+    st.session_state.messages = [
+        {"role": "assistant", "content": f"📚 Enter Course Name:\n{available_courses}"}
+    ]
+
+if "course_selected" not in st.session_state:
+    st.session_state.course_selected = False
+
+if "current_module_index" not in st.session_state:
+    st.session_state.current_module_index = 0
 
 # Chat display
 for message in st.session_state.messages:
