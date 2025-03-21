@@ -1,0 +1,120 @@
+{
+    "Course": {
+        "Python": [
+            {
+                "Module": 1,
+                "Name": "Introduction to Python",
+                "Content": "This module covers Python basics: installation, syntax, and first program. Learn about Python's features, use cases, and interactive mode. Includes hands-on exercises for writing and running simple scripts."
+            },
+            {
+                "Module": 2,
+                "Name": "Variables and Data Types",
+                "Content": "Explore Python's variables, naming conventions, and fundamental data types: integers, floats, strings, and booleans. Practice type conversion and memory management through coding exercises."
+            },
+            {
+                "Module": 3,
+                "Name": "Operators and Expressions",
+                "Content": "Master arithmetic, comparison, logical, and assignment operators. Learn operator precedence and build complex expressions. Includes real-world problem-solving scenarios."
+            },
+            {
+                "Module": 4,
+                "Name": "Control Flow - If, Else, Elif",
+                "Content": "Implement decision-making with conditional statements. Create branching programs using if-elif-else structures. Practice with grading systems and login authentication examples."
+            },
+            {
+                "Module": 5,
+                "Name": "Loops - For and While",
+                "Content": "Automate repetitive tasks using iteration constructs. Learn loop control with break/continue. Implement number guessing games and pattern generation exercises."
+            },
+            {
+                "Module": 6,
+                "Name": "Functions and Scope",
+                "Content": "Create reusable code with functions. Understand parameters, return values, and variable scope. Build modular programs and practice recursion concepts."
+            },
+            {
+                "Module": 7,
+                "Name": "Lists and Tuples",
+                "Content": "Manage collections with lists and tuples. Learn slicing, methods, and immutability differences. Implement shopping cart systems and student record management."
+            },
+            {
+                "Module": 8,
+                "Name": "Dictionaries and Sets",
+                "Content": "Store key-value pairs with dictionaries. Handle unique elements with sets. Practice with phonebook applications and data deduplication challenges."
+            },
+            {
+                "Module": 9,
+                "Name": "File Handling",
+                "Content": "Read/write files in different modes. Handle CSV and JSON data. Build a personal diary application and data export/import systems."
+            },
+            {
+                "Module": 10,
+                "Name": "Object-Oriented Programming",
+                "Content": "Implement classes, objects, inheritance. Learn encapsulation and polymorphism. Build a library management system with OOP principles."
+            },
+            {
+                "Module": 11,
+                "Name": "Modules and Packages",
+                "Content": "Create and use custom modules. Understand Python package structure. Practice with math operations and third-library integrations."
+            },
+            {
+                "Module": 12,
+                "Name": "Exception Handling",
+                "Content": "Handle errors with try-except blocks. Create custom exceptions. Build robust programs with proper error recovery mechanisms."
+            },
+            {
+                "Module": 13,
+                "Name": "Working with Databases",
+                "Content": "Connect to SQLite/MySQL. Perform CRUD operations. Develop a simple ORM system and inventory management application."
+            },
+            {
+                "Module": 14,
+                "Name": "Web Scraping with Python",
+                "Content": "Use BeautifulSoup/Scrapy. Extract web data ethically. Build price comparison tools and news aggregators."
+            },
+            {
+                "Module": 15,
+                "Name": "Automation with Python",
+                "Content": "Automate file management and web interactions. Create email bots and schedule tasks. Implement office productivity tools."
+            },
+            {
+                "Module": 16,
+                "Name": "Data Science and Machine Learning Basics",
+                "Content": "Introduction to Pandas/NumPy. Implement linear regression. Build a simple prediction model with scikit-learn."
+            }
+        ],
+        "Excel": [
+            {
+                "Module": 1,
+                "Name": "Excel Interface Basics",
+                "Content": "Master ribbons, worksheets, and cell navigation. Learn custom views and basic data entry. Includes personal budget setup exercise."
+            },
+            {
+                "Module": 2,
+                "Name": "Formulas and Functions",
+                "Content": "Create SUM/AVERAGE formulas. Use VLOOKUP/IF functions. Build dynamic grade calculators and financial models."
+            },
+            {
+                "Module": 3,
+                "Name": "Data Visualization",
+                "Content": "Create charts and pivot tables. Design dashboards. Practice sales report visualizations."
+            }
+        ],
+        "C++": [
+            {
+                "Module": 1,
+                "Name": "C++ Syntax Fundamentals",
+                "Content": "Learn data types, variables, and I/O operations. Understand compilers. Build console calculator applications."
+            },
+            {
+                "Module": 2,
+                "Name": "Object-Oriented Programming in C++",
+                "Content": "Implement classes/objects. Master inheritance/polymorphism. Develop banking system prototypes."
+            },
+            {
+                "Module": 3,
+                "Name": "Memory Management",
+                "Content": "Understand pointers/dynamic memory. Prevent memory leaks. Practice with custom data structures."
+            }
+        ]
+    }
+}

@@ -1,7 +1,7 @@
 import os
 import groq
 import streamlit as st
-import sqlite3
+import json
 
 # Load API key from environment variable
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
@@ -12,9 +12,9 @@ if not GROQ_API_KEY:
 # Initialize Groq API client
 client = groq.Client(api_key=GROQ_API_KEY)
 
-# Connect to SQLite database
-db_connection = sqlite3.connect("data.db")
-db_cursor = db_connection.cursor()
+# Load course data from JSON file
+with open("course_data.json", "r") as f:
+    course_data = json.load(f)
 
 # Streamlit UI
 st.set_page_config(page_title="AI Tutor Chatbot", layout="wide")
@@ -49,19 +49,30 @@ def get_response(user_input, module_name):
 
     return ai_response
 
-# Function to fetch course content from database
-def fetch_course_content(module_id):
-    db_cursor.execute("SELECT content FROM CourseModules WHERE module_id = ?", (module_id,))
-    result = db_cursor.fetchone()
-    return result[0] if result else "Content not found."
+# Function to fetch course content from JSON data
+def fetch_course_content(module_id, selected_course):
+    for module in course_data["Course"][selected_course]:
+        if module["Module"] == module_id:
+            return module["Content"]
+    return "Content not found."
 
-# Function to fetch module names from database
-def fetch_module_names():
-    db_cursor.execute("SELECT Module, Name FROM CourseModules")
-    return db_cursor.fetchall()
+# Function to fetch course names from JSON data
+def fetch_course_names():
+    return list(course_data["Course"].keys())
+
+# Function to fetch module names from JSON data
+def fetch_module_names(selected_course):
+    modules = []
+    for module in course_data["Course"][selected_course]:
+        modules.append((module["Module"], module["Name"]))
+    return modules
+
+# Fetch course names for selection
+courses = fetch_course_names()
+course_name = st.selectbox("📚 Select Course", options=courses)
 
 # Fetch module names for selection
-modules = fetch_module_names()
+modules = fetch_module_names(course_name)
 module_options = {module[0]: module[1] for module in modules}
 
 # Module selection and completion
@@ -77,12 +88,8 @@ if user_input:
 
 # Display chat history
 st.subheader("📜 Chat History")
-for message in st.session_state.conversation_memory:
+for i, message in enumerate(st.session_state.conversation_memory):
     if message["role"] == "user":
-        st.text_area("👤 You:", value=message["content"], height=70, disabled=True)
+        st.text_area("👤 You:", value=message["content"], height=70, disabled=True, key=f"user_{i}")
     elif message["role"] == "assistant":
-        st.text_area("🤖 AI Tutor:", value=message["content"], height=150, disabled=True)  # Increased height for detailed responses
-
-if st.button("Finish Module"):
-    st.success("Module finished! Proceed to the quiz.")
-    # Redirect to quiz page (handled in gui.py)
+        st.text_area("🤖 AI Tutor:", value=message["content"], height=150, disabled=True, key=f"assistant_{i}")  # Increased height for detailed responses
