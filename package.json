@@ -1,0 +1,13 @@
+{
+  "name": "tutor-ai",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "backend": "cd backend && uvicorn app:app --reload",
+    "frontend": "cd frontend && npm run dev",
+    "dev": "concurrently \"npm run backend\" \"npm run frontend\""
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}

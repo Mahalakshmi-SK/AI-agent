@@ -3,7 +3,6 @@ import json
 import re
 import groq
 import streamlit as st
-import sqlite3
 
 # Load API key from environment variable
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
@@ -14,25 +13,35 @@ if not GROQ_API_KEY:
 # Initialize Groq API client
 client = groq.Client(api_key=GROQ_API_KEY)
 
-# Connect to SQLite database
-db_connection = sqlite3.connect("data.db")
-db_cursor = db_connection.cursor()
+# Load course data from JSON file
+with open("course_data.json", "r") as f:
+    course_data = json.load(f)
 
 # Streamlit UI
 st.set_page_config(page_title="AI Quiz Generator", layout="wide")
 
 st.title("🧠 AI-Powered Quiz Generator")
-st.write("Select a **module**, and I'll generate a 5-question quiz for you! 🚀")
+st.write("Select a **course** and **module**, and I'll generate a 5-question quiz for you! 🚀")
 
 QUIZ_FILE = "quiz.json"
 
-# Function to fetch module names from database
-def fetch_module_names():
-    db_cursor.execute("SELECT Module, Name FROM CourseModules")
-    return db_cursor.fetchall()
+# Function to fetch course names from JSON data
+def fetch_course_names():
+    return list(course_data["Course"].keys())
+
+# Function to fetch module names from JSON data
+def fetch_module_names(selected_course):
+    modules = []
+    for module in course_data["Course"][selected_course]:
+        modules.append((module["Module"], module["Name"]))
+    return modules
+
+# Fetch course names for selection
+courses = fetch_course_names()
+course_name = st.selectbox("📚 Select Course", options=courses)
 
 # Fetch module names for selection
-modules = fetch_module_names()
+modules = fetch_module_names(course_name)
 module_options = {module[0]: module[1] for module in modules}
 
 # Module selection
@@ -138,6 +147,3 @@ if quiz_data:
             st.info(f"📖 Explanation: {question_data['explanation']}")
 
         st.subheader(f"🎯 Your Score: {correct_count}/5")
-
-# Close database connection
-db_connection.close()
